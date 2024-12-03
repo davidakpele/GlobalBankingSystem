@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  ewallet:
+    build:
+      context: ./ewallet
+    container_name: ewallet_container
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ewallet
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "8387:8387"
+    networks:
+      - ewallet-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: ewallet
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+networks:
+  ewallet-network:
+    driver: bridge
