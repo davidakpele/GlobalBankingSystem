@@ -1,36 +1,36 @@
 version: '3.8'
 
 services:
-  ewallet:
+  authentication:
     build:
-      context: ./ewallet
-    container_name: ewallet_container
+      context: ./authentication
+    container_name: digital_banking_authentication_container
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ewallet
-      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/pesco_users_db
+      - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
     ports:
-      - "8387:8387"
+      - "8080:8080" 
     networks:
-      - ewallet-network
+      - authentication-network
     depends_on:
       - db
 
   db:
-    image: postgres:latest
-    container_name: postgres_container
+    image: mysql:latest
+    container_name: mysql_container
     environment:
-      POSTGRES_DB: ewallet
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
+      MYSQL_DATABASE: pesco_users_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     ports:
-      - "5432:5432"
+      - "3307:3306" 
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  postgres_data:
+  mysql_data:
 
 networks:
-  ewallet-network:
+  authentication-network:
     driver: bridge
