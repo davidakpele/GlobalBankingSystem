@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: authentication
-        image: your-dockerhub-username/authentication:latest # Replace with your Docker image
+        image: your-dockerhub-username/authentication:latest 
         ports:
         - containerPort: 8080
         envFrom:
@@ -37,7 +37,7 @@ spec:
             name: authentication-config
         readinessProbe:
           httpGet:
-            path: /actuator/health # Adjust path based on your health endpoint
+            path: /actuator/health 
             port: 8080
           initialDelaySeconds: 10
           periodSeconds: 5
